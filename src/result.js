@@ -2,48 +2,77 @@ import React from 'react';
 
 class Result extends React.Component {
 
-    renderScore(team) {
-        if (team.hasOwnProperty('Score')) {
-            return (
-                <div className="col-xs-6">
-                    <label
-                        key={"game-" + this.props.gameIndex + "-" + team.Name }
-                        className="control-label"
-                    >
-                        {team.Score}
-                    </label>
-                </div>
-            );
+    constructor(props) {
+        super(props);
+        this.state = {
+            gameIndex: props.gameIndex,
+            homeName: props.result.Home.Name,
+            homeScore: (props.result.Home.hasOwnProperty('Score')) ? props.result.Home.Score : undefined,
+            awayName: props.result.Away.Name,
+            awayScore: (props.result.Away.hasOwnProperty('Score')) ? props.result.Away.Score : undefined,
+        }
+        this.scoreChange = this.scoreChange.bind(this);
+    }
+
+    scoreChange(event) {
+        let score = event.target.value;
+        let side = event.target.getAttribute('side');
+        if (side === "home") {
+            // this.state.homeScore = score;
+            this.setState({homeScore: score});
         }
         else{
-            return  (
-                <div className="col-xs-6">
-                    <input
-                        type="number"
-                        min="0"
-                        className="form-control input-sm"
-                        onChange={()=>this.props.onChange()}
-                    ></input>
-                </div>
-            )
+            // this.state.awayScore = score;
+            this.setState({awayScore: score});
         }
+    }
+
+    renderOldScore(score) {
+        return (
+            <div className="col-xs-6">
+                <label
+                    key={"game-" + this.props.gameIndex + "-" + score }
+                    className="control-label"
+                >
+                    {score}
+                </label>
+            </div>
+        );
+    }
+
+    renderFutureScore(teamName) {
+        return  (
+            <div className="col-xs-6">
+                <input
+                    type="number"
+                    min="0"
+                    className="form-control input-sm"
+                    onChange={this.scoreChange}
+                    id={this.props.gameIndex + "-" + teamName }
+                ></input>
+            </div>
+        )
     }
 
     render() {
         let self=this;
-        const home = this.props.result.Home;
-        const away = this.props.result.Away;
+        let homeScoreDiv = self.renderFutureScore(this.state.homeName);
+        let awayScoreDiv = self.renderFutureScore(this.state.awayName);
+        if (this.props.result.Home.hasOwnProperty('Score')) {
+            homeScoreDiv = self.renderOldScore(this.state.homeScore);
+            awayScoreDiv = self.renderOldScore(this.state.awayScore);
+        }
         return (
-            <div className="form-group result game" id={"game-" + this.props.gameIndex}>
+            <div className="form-group result game" id={"game-" + this.state.gameIndex}>
                 <div className="col-xs-3">
-                    <label className="control-label">{home.Name}</label>
+                    <label className="control-label">{this.state.homeName}</label>
                 </div>
                 <div className="col-xs-6">
-                    <div className="home-score">{self.renderScore(home)}</div>
-                    <div className="away-score">{self.renderScore(away)}</div>
+                    <div className="home-score">{homeScoreDiv}</div>
+                    <div className="away-score">{awayScoreDiv}</div>
                 </div>
                 <div className="col-xs-3">
-                    <label className="control-label">{away.Name}</label>
+                    <label className="control-label">{this.state.awayName}</label>
                 </div>
             </div>
         )

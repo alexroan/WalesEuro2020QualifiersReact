@@ -2,7 +2,6 @@ import React from 'react';
 import fixturesAndResults from './data/fixturesAndResults.json';
 import Results from './results';
 import Table from './table';
-import { tsImportEqualsDeclaration } from '@babel/types';
 
 class Predictor extends React.Component {
 	constructor(props) {
@@ -91,7 +90,7 @@ class Predictor extends React.Component {
 		this.sortTable();
 	}
 
-	scoresUpdated() {
+	scoresUpdated(gameIndex, homeScore, awayScore) {
 		console.log('scores updated');
 	}
 
