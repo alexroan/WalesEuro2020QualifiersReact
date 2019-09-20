@@ -6,7 +6,12 @@ class Results extends React.Component {
 
     renderResult(result, index) {
         return (
-            <Result key={index} result={result} gameIndex={index} />
+            <Result
+                key={index}
+                result={result}
+                gameIndex={index}
+                onChange={() => this.props.onChange()}
+            />
         );
     }
 

@@ -18,7 +18,12 @@ class Result extends React.Component {
         else{
             return  (
                 <div className="col-xs-6">
-                    <input type="number" min="0" className="form-control input-sm"></input>
+                    <input
+                        type="number"
+                        min="0"
+                        className="form-control input-sm"
+                        onChange={()=>this.props.onChange()}
+                    ></input>
                 </div>
             )
         }

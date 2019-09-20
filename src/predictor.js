@@ -91,13 +91,20 @@ class Predictor extends React.Component {
 		this.sortTable();
 	}
 
+	scoresUpdated() {
+		console.log('scores updated');
+	}
+
 	render() {
 		return (
 			<div className="row">
 				<div className="predictor">
 					<h1>Predictor</h1>
-					<Results results={this.state.results} />
-					<Table table={this.state.table} />
+					<Results
+						results={this.state.results}
+						onChange={() => this.scoresUpdated()}
+					/>
+					<Table table={this.state.tableArray} />
 				</div>
 			</div>
 		);
