@@ -4,22 +4,24 @@ import Result from './result';
 
 class Results extends React.Component {
 
-    renderResult(result) {
+    renderResult(result, index) {
         return (
-            <Result result={result} />
+            <Result key={index} result={result} gameIndex={index} />
         );
     }
 
     render() {
         let self = this;
         return (
-            <div className="results">
+            <div className="col-sm-6">
                 Results
-                {
-                    this.props.results.map((result, index) => {
-                        return self.renderResult(result);
-                    })
-                }
+                <form className="form-horizontal text-center">
+                    {
+                        this.props.results.map((result, index) => {
+                            return self.renderResult(result, index);
+                        })
+                    }
+                </form>
             </div>
         )
     }
