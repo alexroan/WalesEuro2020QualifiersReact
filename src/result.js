@@ -15,16 +15,24 @@ class Result extends React.Component {
     }
 
     scoreChange(event) {
+        //Use these to call event handler in parent, due to
+        //setState() being asynchronous
+        let homeScore = this.state.homeScore;
+        let awayScore = this.state.awayScore;
+
         let score = event.target.value;
         let side = event.target.getAttribute('side');
-        if (side === "home") {
+        if (side === this.state.homeName) {
             // this.state.homeScore = score;
             this.setState({homeScore: score});
+            homeScore = score;
         }
         else{
             // this.state.awayScore = score;
             this.setState({awayScore: score});
+            awayScore = score;
         }
+        this.props.onChange(this.state.gameIndex, homeScore, awayScore);
     }
 
     renderOldScore(score) {
@@ -49,6 +57,7 @@ class Result extends React.Component {
                     className="form-control input-sm"
                     onChange={this.scoreChange}
                     id={this.props.gameIndex + "-" + teamName }
+                    side={teamName}
                 ></input>
             </div>
         )

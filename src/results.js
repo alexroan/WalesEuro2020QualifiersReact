@@ -10,7 +10,7 @@ class Results extends React.Component {
                 key={index}
                 result={result}
                 gameIndex={index}
-                onChange={() => this.props.onChange()}
+                onChange={(i, hS, aS) => this.props.onChange(i, hS, aS)}
             />
         );
     }

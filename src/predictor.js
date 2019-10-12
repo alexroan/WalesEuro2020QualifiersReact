@@ -9,17 +9,21 @@ class Predictor extends React.Component {
 		this.state = {
 			results: fixturesAndResults,
 			//Object, to run calculations on easily
-			table: {
-				"Croatia": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
-				"Wales": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
-				"Slovakia": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
-				"Hungary": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
-				"Azerbaijan": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0}
-			},
+			table: this.blankTable(),
 			//Array, to sort and send to table component
 			tableArray: []
 		}
 		this.calculateTablePositions();
+	}
+
+	blankTable() {
+		return {
+			"Croatia": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
+			"Wales": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
+			"Slovakia": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
+			"Hungary": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0},
+			"Azerbaijan": {P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0}
+		};
 	}
 
 	sortTable() {
@@ -44,12 +48,11 @@ class Predictor extends React.Component {
 		tableArray.sort(function(a,b){
 			return b.pts - a.pts || b.gd - a.gd || b.gf - a.gf;
 		});
-
 		this.state.tableArray = tableArray;
 	}
 
 	calculateTablePositions() {
-		let pointsTable = this.state.table;
+		let pointsTable = this.blankTable();
 		this.state.results.forEach(result => {
 			var home = result.Home;
 			var away = result.Away;
@@ -91,7 +94,14 @@ class Predictor extends React.Component {
 	}
 
 	scoresUpdated(gameIndex, homeScore, awayScore) {
-		console.log('scores updated');
+		if(homeScore == null || awayScore == null) {
+			return;
+		}
+		let results = this.state.results;
+		results[gameIndex].Home.Score = parseInt(homeScore);
+		results[gameIndex].Away.Score = parseInt(awayScore);
+		this.setState({results: results});
+		this.calculateTablePositions();
 	}
 
 	render() {
@@ -101,7 +111,7 @@ class Predictor extends React.Component {
 					<h1>Predictor</h1>
 					<Results
 						results={this.state.results}
-						onChange={() => this.scoresUpdated()}
+						onChange={(i, hS, aS) => this.scoresUpdated(i, hS, aS)}
 					/>
 					<Table table={this.state.tableArray} />
 				</div>
