@@ -10,6 +10,7 @@ class Result extends React.Component {
             homeScore: (props.result.Home.hasOwnProperty('Score')) ? props.result.Home.Score : undefined,
             awayName: props.result.Away.Name,
             awayScore: (props.result.Away.hasOwnProperty('Score')) ? props.result.Away.Score : undefined,
+            isPrediction: (props.result.Home.hasOwnProperty('Score')) ? false : true,
         }
         this.scoreChange = this.scoreChange.bind(this);
     }
@@ -67,7 +68,7 @@ class Result extends React.Component {
         let self=this;
         let homeScoreDiv = self.renderFutureScore(this.state.homeName);
         let awayScoreDiv = self.renderFutureScore(this.state.awayName);
-        if (this.props.result.Home.hasOwnProperty('Score')) {
+        if (!this.state.isPrediction) {
             homeScoreDiv = self.renderOldScore(this.state.homeScore);
             awayScoreDiv = self.renderOldScore(this.state.awayScore);
         }
