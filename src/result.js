@@ -66,26 +66,26 @@ class Result extends React.Component {
 
     render() {
         let self=this;
-        let homeScoreDiv = self.renderFutureScore(this.state.homeName);
-        let awayScoreDiv = self.renderFutureScore(this.state.awayName);
-        if (!this.state.isPrediction) {
-            homeScoreDiv = self.renderOldScore(this.state.homeScore);
-            awayScoreDiv = self.renderOldScore(this.state.awayScore);
+        if(this.state.isPrediction){
+            let homeScoreDiv = self.renderFutureScore(this.state.homeName);
+            let awayScoreDiv = self.renderFutureScore(this.state.awayName);
+            return (
+                <div className="form-group result game" id={"game-" + this.state.gameIndex}>
+                    <div className="col-xs-3">
+                        <label className="control-label">{this.state.homeName}</label>
+                    </div>
+                    <div className="col-xs-6">
+                        <div className="home-score">{homeScoreDiv}</div>
+                        <div className="away-score">{awayScoreDiv}</div>
+                    </div>
+                    <div className="col-xs-3">
+                        <label className="control-label">{this.state.awayName}</label>
+                    </div>
+                </div>
+            )
         }
-        return (
-            <div className="form-group result game" id={"game-" + this.state.gameIndex}>
-                <div className="col-xs-3">
-                    <label className="control-label">{this.state.homeName}</label>
-                </div>
-                <div className="col-xs-6">
-                    <div className="home-score">{homeScoreDiv}</div>
-                    <div className="away-score">{awayScoreDiv}</div>
-                </div>
-                <div className="col-xs-3">
-                    <label className="control-label">{this.state.awayName}</label>
-                </div>
-            </div>
-        )
+
+        return (<div></div>);
     }
 }
 
